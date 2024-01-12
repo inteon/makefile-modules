@@ -90,6 +90,8 @@ TOOLS += oras=v1.1.0
 TOOLS += ginkgo=$(shell [[ -f go.mod ]] && awk '/ginkgo\/v2/ {print $$2}' go.mod || echo "v2.13.2")
 # https://pkg.go.dev/github.com/cert-manager/klone?tab=versions
 TOOLS += klone=v0.0.3
+# https://pkg.go.dev/github.com/cert-manager/helm-tool?tab=versions
+TOOLS += helm-tool=263fd6690eae94aa8a6b73d9e3672ad3b65d462b
 
 # https://pkg.go.dev/k8s.io/code-generator/cmd?tab=versions
 K8S_CODEGEN_VERSION=v0.29.0
@@ -262,6 +264,7 @@ GO_DEPENDENCIES += boilersuite=github.com/cert-manager/boilersuite
 GO_DEPENDENCIES += gomarkdoc=github.com/princjef/gomarkdoc/cmd/gomarkdoc
 GO_DEPENDENCIES += oras=oras.land/oras/cmd/oras
 GO_DEPENDENCIES += klone=github.com/cert-manager/klone
+GO_DEPENDENCIES += helm-tool=github.com/cert-manager/helm-tool
 
 define go_dependency
 $$(bin_dir)/downloaded/tools/$1@$($(call UC,$1)_VERSION)_%: | $$(NEEDS_GO) $$(bin_dir)/downloaded/tools

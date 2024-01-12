@@ -68,8 +68,8 @@ helm-chart: $(helm_chart_archive)
 .PHONY: generate-helm-docs
 ## Generate Helm chart documentation.
 ## @category [shared] Generate/ Verify
-generate-helm-docs: | $(NEEDS_HELM-DOCS)
-	$(HELM-DOCS) $(helm_chart_source_dir)/
+generate-helm-docs: | $(NEEDS_HELM-TOOL)
+	$(HELM-TOOL) $(helm_chart_source_dir)/
 
 shared_generate_targets += generate-helm-docs
 
