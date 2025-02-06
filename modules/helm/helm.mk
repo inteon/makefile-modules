@@ -12,45 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ifndef bin_dir
-$(error bin_dir is not set)
-endif
-
-ifndef repo_name
-$(error repo_name is not set)
-endif
-
-ifndef helm_chart_source_dir
-$(error helm_chart_source_dir is not set)
-endif
-
-ifndef helm_chart_image_name
-$(error helm_chart_image_name is not set)
-endif
-
-ifndef helm_chart_version
-$(error helm_chart_version is not set)
-endif
-ifneq ($(helm_chart_version:v%=v),v)
-$(error helm_chart_version "$(helm_chart_version)" should start with a "v")
-endif
-
 ifndef helm_values_mutation_function
 $(error helm_values_mutation_function is not set)
 endif
 
 ##########################################
 
-helm_chart_name := $(notdir $(helm_chart_image_name))
-helm_chart_image_registry := $(dir $(helm_chart_image_name))
-helm_chart_image_tag := $(helm_chart_version)
-helm_chart_sources := $(shell find $(helm_chart_source_dir) -maxdepth 1 -type f) $(shell find $(helm_chart_source_dir)/templates -type f)
-helm_chart_archive := $(bin_dir)/scratch/helm/$(helm_chart_name)-$(helm_chart_version).tgz
-helm_digest_path := $(bin_dir)/scratch/helm/$(helm_chart_name)-$(helm_chart_version).digests
-helm_digest = $(shell head -1 $(helm_digest_path) 2> /dev/null)
-
 $(bin_dir)/scratch/helm:
 	@mkdir -p $@
+
+helm_chart_sources := $(shell find $(helm_chart_source_dir) -maxdepth 1 -type f) $(shell find $(helm_chart_source_dir)/templates -type f)
 
 $(helm_chart_archive): $(helm_chart_sources) | $(NEEDS_HELM) $(NEEDS_YQ) $(bin_dir)/scratch/helm
 	$(eval helm_chart_source_dir_versioned := $@.tmp)
